@@ -1,0 +1,421 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Block Bridge - Interactive Component</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #0d1b2a;
+            color: #e0e1dd;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            background-color: #1b263b;
+            padding: 15px 40px;
+            border-bottom: 2px solid #00b4d8;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            box-sizing: border-box;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 900;
+            color: #00b4d8;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+            flex-wrap: wrap;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: #e0e1dd;
+            font-size: 16px;
+        }
+
+        .nav-links li a:hover {
+            color: #90e0ef;
+        }
+
+        .quiz-heading {
+            text-align: center;
+            margin-top: 100px;
+            color: #00b4d8;
+        }
+
+        .quiz-heading p {
+            color: #e0e1dd;
+            font-size: 14px;
+        }
+
+        .quiz-container {
+            max-width: 550px;
+            margin: 0 auto;
+            padding: 20px 40px 60px;
+        }
+
+        .quiz-box {
+            background-color: #1b263b;
+            border: 1px solid #00b4d8;
+            border-radius: 8px;
+            padding: 25px;
+        }
+
+        .quiz-progress {
+            font-size: 13px;
+            color: #90e0ef;
+            margin-bottom: 10px;
+        }
+
+        #question-text {
+            color: #00b4d8;
+            margin-top: 0;
+            font-size: 18px;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .option-btn {
+            background-color: #0d1b2a;
+            color: #e0e1dd;
+            border: 1px solid #00b4d8;
+            border-radius: 8px;
+            padding: 12px 15px;
+            text-align: left;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .option-btn:hover {
+            background-color: #273a52;
+        }
+
+        .option-btn.correct {
+            background-color: #00b4d8;
+            color: #0d1b2a;
+            border-color: #00b4d8;
+            font-weight: bold;
+        }
+
+        .option-btn.incorrect {
+            background-color: #ff6b6b;
+            color: #0d1b2a;
+            border-color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        #feedback-msg {
+            min-height: 18px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .feedback-correct {
+            color: #00b4d8;
+        }
+
+        .feedback-incorrect {
+            color: #ff6b6b;
+        }
+
+        #next-btn {
+            background-color: #00b4d8;
+            color: #0d1b2a;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        #next-btn:hover {
+            background-color: #90e0ef;
+        }
+
+        #next-btn:disabled {
+            background-color: #577590;
+            cursor: not-allowed;
+        }
+
+        #score-screen {
+            text-align: center;
+            display: none;
+        }
+
+        #score-screen h3 {
+            color: #00b4d8;
+        }
+
+        #score-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #90e0ef;
+            margin: 10px 0;
+        }
+
+        #restart-btn {
+            background-color: #00b4d8;
+            color: #0d1b2a;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        #restart-btn:hover {
+            background-color: #90e0ef;
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                padding: 15px 20px;
+            }
+
+            .quiz-container {
+                padding: 15px 20px 40px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">Block Bridge</div>
+
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="https://aboutus.com">About Us</a></li>
+            <li><a href="https://ourwebsite.com">Our Website</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="quiz-heading">
+        <h2>Interactive Component</h2>
+        <p>A quiz built with JavaScript event handling and DOM updates</p>
+    </div>
+
+    <div class="quiz-container">
+
+        <div class="quiz-box" id="quiz-box">
+
+            <div class="quiz-progress" id="quiz-progress">
+                Question 1 of 5
+            </div>
+
+            <h3 id="question-text"></h3>
+
+            <div class="options-list" id="options-list"></div>
+
+            <p id="feedback-msg"></p>
+
+            <button id="next-btn" onclick="nextQuestion()" disabled>
+                Next
+            </button>
+
+        </div>
+
+        <div class="quiz-box" id="score-screen">
+
+            <h3>Quiz Complete!</h3>
+
+            <div id="score-value"></div>
+
+            <p>You answered correctly on the questions above.</p>
+
+            <button id="restart-btn" onclick="restartQuiz()">
+                Try Again
+            </button>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        const quizQuestions = [
+            {
+                question: 'Which tag name is used to link an external JavaScript file to an HTML page?',
+                options: ['js', 'link', 'script', 'src'],
+                correctIndex: 2
+            },
+            {
+                question: 'Which method selects an element by its id?',
+                options: ['document.query()', 'document.getElementById()', 'document.selectId()', 'document.findId()'],
+                correctIndex: 1
+            },
+            {
+                question: 'Which CSS property is used to arrange items in a row or column?',
+                options: ['position', 'display: flex', 'float', 'overflow'],
+                correctIndex: 1
+            },
+            {
+                question: 'Which JavaScript keyword declares a variable that cannot be reassigned?',
+                options: ['var', 'let', 'const', 'static'],
+                correctIndex: 2
+            },
+            {
+                question: 'Which event fires when a user clicks a button?',
+                options: ['onchange', 'onclick', 'onload', 'onhover'],
+                correctIndex: 1
+            }
+        ];
+
+        const quizBox = document.getElementById('quiz-box');
+        const scoreScreen = document.getElementById('score-screen');
+        const quizProgress = document.getElementById('quiz-progress');
+        const questionText = document.getElementById('question-text');
+        const optionsList = document.getElementById('options-list');
+        const feedbackMsg = document.getElementById('feedback-msg');
+        const nextBtn = document.getElementById('next-btn');
+        const scoreValue = document.getElementById('score-value');
+
+        let currentIndex = 0;
+        let score = 0;
+        let hasAnswered = false;
+
+        function loadQuestion() {
+
+            hasAnswered = false;
+            feedbackMsg.textContent = '';
+            feedbackMsg.className = '';
+            nextBtn.disabled = true;
+
+            const current = quizQuestions[currentIndex];
+
+            quizProgress.textContent = 'Question ' + (currentIndex + 1) + ' of ' + quizQuestions.length;
+
+            questionText.textContent = current.question;
+
+            optionsList.innerHTML = '';
+
+            current.options.forEach(function(optionText, index) {
+
+                const btn = document.createElement('button');
+
+                btn.className = 'option-btn';
+                btn.textContent = optionText;
+
+                btn.addEventListener('click', function() {
+                    selectAnswer(index);
+                });
+
+                optionsList.appendChild(btn);
+
+            });
+        }
+
+        function selectAnswer(selectedIndex) {
+
+            if (hasAnswered) {
+                return;
+            }
+
+            hasAnswered = true;
+
+            const current = quizQuestions[currentIndex];
+
+            const optionButtons = optionsList.querySelectorAll('.option-btn');
+
+            optionButtons.forEach(function(btn, index) {
+
+                btn.disabled = true;
+
+                if (index === current.correctIndex) {
+                    btn.classList.add('correct');
+                }
+                else if (index === selectedIndex) {
+                    btn.classList.add('incorrect');
+                }
+
+            });
+
+            if (selectedIndex === current.correctIndex) {
+
+                score++;
+
+                feedbackMsg.textContent = 'Correct!';
+                feedbackMsg.className = 'feedback-correct';
+
+            }
+            else {
+
+                feedbackMsg.textContent = 'Incorrect. The right answer is highlighted.';
+                feedbackMsg.className = 'feedback-incorrect';
+
+            }
+
+            nextBtn.disabled = false;
+        }
+
+        function nextQuestion() {
+
+            currentIndex++;
+
+            if (currentIndex < quizQuestions.length) {
+                loadQuestion();
+            }
+            else {
+                showScore();
+            }
+        }
+
+        function showScore() {
+
+            quizBox.style.display = 'none';
+            scoreScreen.style.display = 'block';
+
+            scoreValue.textContent = score + ' / ' + quizQuestions.length;
+        }
+
+        function restartQuiz() {
+
+            currentIndex = 0;
+            score = 0;
+
+            scoreScreen.style.display = 'none';
+            quizBox.style.display = 'block';
+
+            loadQuestion();
+        }
+
+        loadQuestion();
+
+    </script>
+
+</body>
+</html>
